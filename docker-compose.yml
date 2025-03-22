@@ -1,0 +1,53 @@
+services:
+  backend:
+    env_file: .env
+    image: ${REGISTRY}/backend:${TAG?:?error}
+    build: backend
+    restart: unless-stopped
+    command: [ 'alembic', 'upgrade', 'head' ]
+    volumes:
+      - static-files:/backend/static
+    expose:
+      - ${BACKEND_PORT}
+    depends_on:
+      - database
+
+  frontend:
+    env_file: .env
+    build: frontend
+    image: ${REGISTRY}/frontend:${TAG?:?error}
+    restart: unless-stopped
+    expose:
+      - ${FRONTEND_PORT}
+
+  nginx:
+    env_file: .env
+    image: nginx:1.25-alpine3.18
+    restart: unless-stopped
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    volumes:
+      - static-files:/app/static
+      - type: bind
+        source: ./nginx/default.conf.template
+        target: /etc/nginx/templates/default.conf.template
+    environment:
+      - BACKEND_HOSTNAME=backend
+      - FRONTEND_HOSTNAME=frontend
+    depends_on:
+      - frontend
+      - backend
+
+  database:
+    env_file: .env
+    environment:
+      - PGPORT=${POSTGRES_PORT}
+    image: postgres:16.4-alpine3.20
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  static-files:
+  db-data:

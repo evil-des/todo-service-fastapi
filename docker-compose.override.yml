@@ -1,0 +1,18 @@
+services:
+  backend:
+    command: [ ]
+    volumes:
+      - ./backend/app:/backend/app
+      - ./backend/migrations/versions:/backend/migrations/versions
+  frontend:
+    build:
+      dockerfile_inline: FROM alpine
+    image: alpine
+    tty: false
+    restart: no
+
+  nginx:
+    environment:
+      - FRONTEND_HOSTNAME=host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
