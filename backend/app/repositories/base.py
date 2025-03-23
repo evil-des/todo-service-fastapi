@@ -22,9 +22,10 @@ class BaseRepository(Generic[T]):
         scalar = await self.session.scalars(stmt)
         return scalar.one_or_none()
 
-    async def list(self, *, options: Sequence[ExecutableOption] = None) -> Sequence[T]:
+    async def list(self, *, filters: Sequence[Any] = None, options: Sequence[ExecutableOption] = None) -> Sequence[T]:
+        filters = filters or []
         options = options or []
-        stmt = select(self.model).options(*options)
+        stmt = select(self.model).where(*filters).options(*options)
         scalar = await self.session.scalars(stmt)
         return scalar.all()
 

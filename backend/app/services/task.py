@@ -30,7 +30,7 @@ class TaskService(BaseService):
     async def get_tasks(self, user_id: int) -> list[TaskSchema]:
         return TypeAdapter(list[TaskSchema]).validate_python(
             await self.task_repository.list(
-                options=[Task.user_id == user_id],
+                filters=[Task.user_id == user_id],
             ),
             from_attributes=True,
         )
@@ -55,7 +55,7 @@ class TaskService(BaseService):
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
             return TaskSchema.model_validate(
-                self.task_repository.update(
+                await self.task_repository.update(
                     task,
                     patch_schema.model_dump(exclude_unset=True),
                 ),
@@ -72,7 +72,7 @@ class TaskService(BaseService):
             if task.user_id != user_id:
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
-            await self.task_repository.delete(task_id)
+            return await self.task_repository.delete(task_id)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod

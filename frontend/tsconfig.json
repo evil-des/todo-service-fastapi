@@ -1,0 +1,35 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ],
+  "compilerOptions": {
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "composite": true,
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@layouts/*": [
+        "./src/app/layouts/*"
+      ],
+      "@css/*": [
+        "./src/app/css"
+      ],
+      "@icons/*": [
+        "./src/shared/assets/icons/*"
+      ],
+      "@utils/*": [
+        "./src/shared/utils/*"
+      ]
+    }
+  }
+}

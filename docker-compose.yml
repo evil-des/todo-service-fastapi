@@ -12,13 +12,13 @@ services:
     depends_on:
       - database
 
-  frontend:
-    env_file: .env
-    build: frontend
-    image: ${REGISTRY}/frontend:${TAG?:?error}
-    restart: unless-stopped
-    expose:
-      - ${FRONTEND_PORT}
+#  frontend:
+#    env_file: .env
+#    build: frontend
+#    image: ${REGISTRY}/frontend:${TAG?:?error}
+#    restart: unless-stopped
+#    expose:
+#      - ${FRONTEND_PORT}
 
   nginx:
     env_file: .env
@@ -33,9 +33,8 @@ services:
         target: /etc/nginx/templates/default.conf.template
     environment:
       - BACKEND_HOSTNAME=backend
-      - FRONTEND_HOSTNAME=frontend
     depends_on:
-      - frontend
+#      - frontend
       - backend
 
   database:

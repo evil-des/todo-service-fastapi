@@ -1,0 +1,38 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "webApp.d.ts",
+    "src/**/*",
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "target": "es2022",
+    "lib": [
+      "es2022",
+      "dom"
+    ],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@layouts/*": [
+        "./src/app/layouts/*"
+      ],
+      "@css/*": [
+        "./src/app/css/*"
+      ],
+      "@icons/*": [
+        "./src/shared/assets/icons/*"
+      ],
+      "@utils/*": [
+        "./src/shared/utils/*"
+      ]
+    }
+  }
+}

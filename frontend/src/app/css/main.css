@@ -1,0 +1,9 @@
+body {
+    @apply bg-[#E2E8F0];
+}
+
+@media (max-width: 383px) {
+    html {
+        font-size: 14px;
+    }
+}

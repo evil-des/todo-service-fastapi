@@ -11,6 +11,6 @@ class TaskPutSchema(FormModel, TaskBaseSchema):
 
 
 class TaskPatchSchema(FormModel, BaseModel):
-    name: Optional[str]
-    description: Optional[str]
-    status: Optional[TaskStatus]
+    name: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[TaskStatus] = None
