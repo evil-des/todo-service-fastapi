@@ -1,6 +1,7 @@
 from typing import Optional, Sequence
 
 from fastapi import HTTPException, WebSocket
+from sqlalchemy.exc import IntegrityError
 from starlette import status
 
 from core.security.utils import verify_password, hash_password
@@ -53,14 +54,23 @@ class UserService(BaseService):
         )
 
     async def register(self, user_data: UserPutSchema) -> str:
-        user = await self.put_user(user_data)
-        return self._create_jwt_token(user.id)
+        try:
+            user = await self.put_user(user_data)
+            return self._create_jwt_token(user.id)
+        except IntegrityError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Пользователь с таким логином уже существует!",
+            )
 
     async def login(self, user_data: UserLoginSchema) -> str:
         user = await self.user_repository.get_by_username(user_data.username)
 
         if not user or not verify_password(user_data.password, user.password):
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Неверный логин или пароль!"
+            )
 
         return self._create_jwt_token(user.id)
 

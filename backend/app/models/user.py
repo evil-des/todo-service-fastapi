@@ -16,6 +16,6 @@ if TYPE_CHECKING:
 class User(DBModel, CreatedAtMixin):
     __tablename__ = "users"
 
-    username: Mapped[str] = mapped_column(String(200))
+    username: Mapped[str] = mapped_column(String(200), unique=True)
     password: Mapped[str] = mapped_column(String)
     tasks: Mapped[list["Task"]] = relationship(back_populates="user")
