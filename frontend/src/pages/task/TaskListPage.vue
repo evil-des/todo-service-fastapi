@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center gap-4 px-4 py-3 text-center w-full md:w-1/2">
     <h2 class="text-xl">Список ваших задач</h2>
     <!-- Контролы фильтрации и сортировки -->
-    <div class="flex gap-4 mb-4">
+    <div class="flex flex-col md:flex-row gap-4 mb-4">
       <!-- Фильтр по статусу -->
       <select v-model="selectedStatus" class="p-2 border rounded">
         <option value="">Все статусы</option>
