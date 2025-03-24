@@ -11,11 +11,9 @@ const authGuard = async (
 
   if (to.meta?.requiresAuth && !isAuthenticated) {
     return userLoginRoute;
-  } else if (to.path === "/" + userLoginRoute.path && isAuthenticated) {
-    return tasksListRoute;
   }
 
-  return true;
+  return tasksListRoute;
 }
 
 export default authGuard;

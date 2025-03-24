@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type {UserAuth, UserStore} from './types';
 import {fetchUserMe, loginUser, registerUser} from "@/entities/user/api.ts";
-import {authenticateAndStoreToken} from "@/shared/api/utils.ts";
+import {authenticateAndStoreToken, clearToken} from "@/shared/api/utils.ts";
 
 export const useUserStore = defineStore('userData', {
   state: (): UserStore => ({
@@ -17,5 +17,10 @@ export const useUserStore = defineStore('userData', {
       await authenticateAndStoreToken(authData, apiMethod);
       this.isAuthenticated = true;
     },
+    async logout() {
+      clearToken();
+      this.user = undefined;
+      this.isAuthenticated = false;
+    }
   },
 });

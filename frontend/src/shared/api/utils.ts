@@ -21,3 +21,7 @@ export const authenticateAndStoreToken = async (
   sessionStorage.setItem(ACCESS_TOKEN_SESSION_STORAGE_KEY, token);
   return token;
 };
+
+export const clearToken = () => {
+  sessionStorage.removeItem(ACCESS_TOKEN_SESSION_STORAGE_KEY);
+};
