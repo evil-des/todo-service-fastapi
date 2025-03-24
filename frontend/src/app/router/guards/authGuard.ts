@@ -13,7 +13,11 @@ const authGuard = async (
     return userLoginRoute;
   }
 
-  return tasksListRoute;
+  if (to.path !== "/" + tasksListRoute.path) {
+    return tasksListRoute;
+  }
+
+  return true;
 }
 
 export default authGuard;
